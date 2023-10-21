@@ -86,7 +86,7 @@ public class GuideServiceController {
         Guide guide = guideService.updateGuide(updatedGuide);
 
         if (guide != null) {
-            System.out.println(guide);
+//            System.out.println(guide);
             return ResponseEntity.ok(new ResponseUtil(201,"Guide details updated successfully", guide));
         } else {
             // Handle the case where the update operation fails
