@@ -1,9 +1,6 @@
 package lk.ijse.gdse.Guide_Service.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,10 +21,15 @@ public class Guide {
     private int manDayValue;
     private String experience;
     private String userRemarks;
+    @Column(length = 10485760)
     private byte[] guideImage;
+    @Column(length = 10485760)
     private byte[] nicFrontImage;
+    @Column(length = 10485760)
     private byte[] nicRearImage;
+    @Column(length = 10485760)
     private byte[] guideIdFrontImage;
+    @Column(length = 10485760)
     private byte[] guideIdRearImage;
 
 

@@ -19,7 +19,6 @@ public class GuideDTO {
     private int manDayValue;
     private String experience;
     private String userRemarks;
-    @Column(length = 10485760)
     private byte[] guideImage;  // Storing image as byte array
     private byte[] nicFrontImage;
     private byte[] nicRearImage;

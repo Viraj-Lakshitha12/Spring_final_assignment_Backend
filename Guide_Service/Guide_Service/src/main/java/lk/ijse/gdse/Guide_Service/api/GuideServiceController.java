@@ -6,19 +6,28 @@ import lk.ijse.gdse.Guide_Service.service.impl.GuideService;
 import lk.ijse.gdse.Guide_Service.util.DataTypeConversion;
 import lk.ijse.gdse.Guide_Service.util.ResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
 import java.io.IOException;
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin("*")
 @RequestMapping("api/v1/guide")
 public class GuideServiceController {
 
+    private final GuideService guideService;
+    private final DataTypeConversion dataTypeConversion;
+
     @Autowired
-    private GuideService guideService;
-    @Autowired
-    private DataTypeConversion dataTypeConversion;
+    public GuideServiceController(GuideService guideService, DataTypeConversion dataTypeConversion) {
+        this.guideService = guideService;
+        this.dataTypeConversion = dataTypeConversion;
+    }
 
     @PostMapping("/saveGuide")
     public ResponseUtil saveGuide(
@@ -28,44 +37,61 @@ public class GuideServiceController {
             @RequestParam("gender") String gender,
             @RequestParam("Contact_number") String contactNumber,
             @RequestParam("Man-day-value") int manDayValue,
-            @RequestPart("Guide_image") MultipartFile guideImage
-//            @RequestPart("Guide_Nic_font") MultipartFile guideNicFront,
-//            @RequestPart("Guide_Nic_Rear") MultipartFile guideNicRear,
-//            @RequestPart("Guide_ID_font") MultipartFile guideIdFront,
-//            @RequestPart("Guide_ID_Rear") MultipartFile guideIdRear,
-//            @RequestParam("Experience") String experience,
-//            @RequestParam("User_remarks") String userRemarks
+            @RequestPart("Guide_image") MultipartFile guideImage,
+            @RequestPart("Guide_Nic_font") MultipartFile guideNicFront,
+            @RequestPart("Guide_Nic_Rear") MultipartFile guideNicRear,
+            @RequestPart("Guide_ID_font") MultipartFile guideIdFront,
+            @RequestPart("Guide_ID_Rear") MultipartFile guideIdRear,
+            @RequestParam("guide_experience") String experience,
+            @RequestParam("User_remarks") String userRemarks
     ) {
+        try {
+            byte[] guideImageBytes = guideImage.getBytes();
+            byte[] nicFrontImageBytes = guideNicFront.getBytes();
+            byte[] nicRearImageBytes = guideNicRear.getBytes();
+            byte[] guideIdFrontBytes = guideIdFront.getBytes();
+            byte[] guideIdRearBytes = guideIdRear.getBytes();
 
-//            byte[] nicFrontImageBytes = guideNicFront.getBytes();
-//            byte[] nicRearImageBytes = guideNicRear.getBytes();
-//            byte[] guideIdFrontBytes = guideIdFront.getBytes();
-//            byte[] guideIdRearBytes = guideIdRear.getBytes();
+            // You can perform data validation here
 
-            // Data validation can be added here, e.g., checking age and other parameters
+            GuideDTO dto = new GuideDTO(null, guideName, guideAddress, guideAge, gender, contactNumber, manDayValue, experience, userRemarks,
+                    guideImageBytes, nicFrontImageBytes, nicRearImageBytes, guideIdFrontBytes, guideIdRearBytes);
 
-            // Save guide data to the database using guideService
-//            GuideDTO dto = new GuideDTO(null, guideName, guideAddress, guideAge, gender, contactNumber, manDayValue, experience, userRemarks,
-//                    guideImageBytes, nicFrontImageBytes, nicRearImageBytes, guideIdFrontBytes, guideIdRearBytes);
+            Guide guide = guideService.saveData(dataTypeConversion.getGuideEntity(dto));
 
-            try {
-                // Convert MultipartFile image to a byte array
-                byte[] guideImageBytes = guideImage.getBytes();
-
-                // Data validation can be added here, e.g., checking age and other parameters
-
-                // Save guide data to the database using guideService
-                GuideDTO dto = new GuideDTO(guideName, guideAddress, guideAge, gender, contactNumber, manDayValue, guideImageBytes);
-
-                Guide guide = guideService.saveData(dataTypeConversion.getGuideEntity(dto));
-
-                // Convert the saved entity back to DTO
-                GuideDTO savedDto = dataTypeConversion.getGuideDTO(guide);
-
-                // Return a response with the saved guide data
-                return new ResponseUtil(201, "Guide data saved successfully", savedDto);
-            } catch (IOException e) {
-                return new ResponseUtil(500, "Error converting image to byte array: " + e.getMessage(), null);
-            }
+            return new ResponseUtil(201, "Guide data saved successfully", guide);
+        } catch (IOException e) {
+            return new ResponseUtil(500, "Error converting image to byte array: " + e.getMessage(), null);
         }
     }
+
+    @GetMapping("/getAllData")
+    public ResponseEntity<List<Guide>> getAllDetails() {
+        List<Guide> details = guideService.getAllData();
+        return !details.isEmpty() ? ResponseEntity.ok(details) : ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/getGuideById/{id}")
+    public ResponseEntity<?> getGuideDetailsById(@PathVariable Long id) {
+        Optional<Guide> guideById = guideService.getGuideById(id);
+        if (guideById.isPresent()) {
+            return ResponseEntity.ok(guideById.get());
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Guide not found");
+        }
+    }
+
+    @PutMapping("/updateGuide/{guideId}")
+    public ResponseEntity<ResponseUtil> updateGuideDetails(@PathVariable Long guideId, @RequestBody Guide updatedGuide) {
+        Guide guide = guideService.updateGuide(updatedGuide);
+
+        if (guide != null) {
+            System.out.println(guide);
+            return ResponseEntity.ok(new ResponseUtil(201,"Guide details updated successfully", guide));
+        } else {
+            // Handle the case where the update operation fails
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ResponseUtil(500,"Failed to update guide details", HttpStatus.INTERNAL_SERVER_ERROR));
+        }
+    }
+}
