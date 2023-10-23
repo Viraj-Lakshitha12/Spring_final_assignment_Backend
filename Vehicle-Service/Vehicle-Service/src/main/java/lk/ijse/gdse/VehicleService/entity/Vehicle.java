@@ -4,13 +4,11 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@Entity
-@Table(name = "Vehicle_Service")
-public class Vehicle{
+@Entity(name = "vehicle_service")
+public class Vehicle {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long vehicleId;
@@ -25,26 +23,18 @@ public class Vehicle{
     private String driverName;
     private String driverContactNo;
     private String remarks;
-
-    @Column(columnDefinition = "MEDIUMBLOB")
+    @Column(length = 10485760)
     private byte[] frontViewImage;
-
-    @Column(columnDefinition = "MEDIUMBLOB")
+    @Column(length = 10485760)
     private byte[] rearViewImage;
-
-    @Column(columnDefinition = "MEDIUMBLOB")
+    @Column(length = 10485760)
     private byte[] sideViewImage;
-
-    @Column(columnDefinition = "MEDIUMBLOB")
+    @Column(length = 10485760)
     private byte[] frontInteriorImage;
-
-    @Column(columnDefinition = "MEDIUMBLOB")
+    @Column(length = 10485760)
     private byte[] rearInteriorImage;
-
-    @Column(columnDefinition = "MEDIUMBLOB")
+    @Column(length = 10485760)
     private byte[] licenseFrontImage;
-
-    @Column(columnDefinition = "MEDIUMBLOB")
+    @Column(length = 10485760)
     private byte[] licenseRearImage;
-
-}
+    }

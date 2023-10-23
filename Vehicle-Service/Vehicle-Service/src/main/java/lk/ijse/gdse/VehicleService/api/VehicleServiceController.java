@@ -6,73 +6,87 @@ import lk.ijse.gdse.VehicleService.service.VehicleService;
 import lk.ijse.gdse.VehicleService.util.DataTypeConversion;
 import lk.ijse.gdse.VehicleService.util.ResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
+import org.springframework.context.annotation.Bean;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.UUID;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin("*")
 @RequestMapping("api/v1/vehicle")
 public class VehicleServiceController {
+
     @Autowired
-    private final VehicleService vehicleService;
+    private VehicleService vehicleService;
     @Autowired
-    private final DataTypeConversion dataTypeConversion;
+    private DataTypeConversion dataTypeConversion;
 
-    // Define the directory where uploaded images will be saved
-    private static final String UPLOAD_DIRECTORY = "uploads";
+    @PostMapping("/saveData")
+    public ResponseUtil saveData(
+            @RequestPart("vehicleDTO") VehicleDTO vehicleDTO,
+            @RequestPart("frontViewImage") MultipartFile frontViewImage,
+            @RequestPart("rearViewImage") MultipartFile rearViewImage,
+            @RequestPart("sideViewImage") MultipartFile sideViewImage,
+            @RequestPart("frontInteriorImage") MultipartFile frontInteriorImage,
+            @RequestPart("rearInteriorImage") MultipartFile rearInteriorImage,
+            @RequestPart("licenseFrontImage") MultipartFile licenseFrontImage,
+            @RequestPart("licenseRearImage") MultipartFile licenseRearImage) {
 
-    public VehicleServiceController(VehicleService service, DataTypeConversion conversion) {
-        vehicleService = service;
-        dataTypeConversion = conversion;
-    }
+        try {
+            // Convert Multipart files to byte arrays
+            byte[] frontViewImageBytes = frontViewImage.getBytes();
+            byte[] rearViewImageBytes = rearViewImage.getBytes();
+            byte[] sideViewImageBytes = sideViewImage.getBytes();
+            byte[] frontInteriorImageBytes = frontInteriorImage.getBytes();
+            byte[] rearInteriorImageBytes = rearInteriorImage.getBytes();
+            byte[] licenseFrontImageBytes = licenseFrontImage.getBytes();
+            byte[] licenseRearImageBytes = licenseRearImage.getBytes();
 
-    @PostMapping(value = "/saveData", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseUtil saveData(@RequestBody VehicleDTO vehicleDTO) {
-        Vehicle vehicle = vehicleService.saveData(dataTypeConversion.getVehicleEntity(vehicleDTO));
-        System.out.println(vehicleDTO);
-        return new ResponseUtil(201, "saved", vehicle);
-    }
+            // Set image bytes in the VehicleDTO
+            vehicleDTO.setFrontViewImage(frontViewImageBytes);
+            vehicleDTO.setRearViewImage(rearViewImageBytes);
+            vehicleDTO.setSideViewImage(sideViewImageBytes);
+            vehicleDTO.setFrontInteriorImage(frontInteriorImageBytes);
+            vehicleDTO.setRearInteriorImage(rearInteriorImageBytes);
+            vehicleDTO.setLicenseFrontImage(licenseFrontImageBytes);
+            vehicleDTO.setLicenseRearImage(licenseRearImageBytes);
 
-    @PostMapping(value = "/uploadImages", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseUtil uploadImages(@RequestParam("frontViewImage") MultipartFile frontViewImage,
-                                     @RequestParam("rearViewImage") MultipartFile rearViewImage,
-                                     @RequestParam("sideViewImage") MultipartFile sideViewImage,
-                                     @RequestParam("frontInteriorImage") MultipartFile frontInteriorImage,
-                                     @RequestParam("rearInteriorImage") MultipartFile rearInteriorImage,
-                                     @RequestParam("licenseFrontImage") MultipartFile licenseFrontImage,
-                                     @RequestParam("licenseRearImage") MultipartFile licenseRearImage) throws IOException {
+            // Convert the VehicleDTO to an entity and save it
+            Vehicle vehicle = vehicleService.saveData(dataTypeConversion.getVehicleEntity(vehicleDTO));
 
-        // Create the upload directory if it doesn't exist
-        Path uploadPath = Paths.get(UPLOAD_DIRECTORY);
-        if (!Files.exists(uploadPath)) {
-            Files.createDirectories(uploadPath);
+            // Return a response indicating success
+            return new ResponseUtil(201, "Vehicle data saved successfully", vehicle);
+        } catch (IOException e) {
+            // Handle file reading errors
+            e.printStackTrace();
+            return new ResponseUtil(500, "Error saving vehicle data: " + e.getMessage(), null);
         }
+    }
 
-        // Generate unique filenames for the uploaded images
-        String frontViewFileName = UUID.randomUUID() + "_" + frontViewImage.getOriginalFilename();
-        String rearViewFileName = UUID.randomUUID() + "_" + rearViewImage.getOriginalFilename();
-        String sideViewFileName = UUID.randomUUID() + "_" + sideViewImage.getOriginalFilename();
-        String frontInteriorFileName = UUID.randomUUID() + "_" + frontInteriorImage.getOriginalFilename();
-        String rearInteriorFileName = UUID.randomUUID() + "_" + rearInteriorImage.getOriginalFilename();
-        String licenseFrontFileName = UUID.randomUUID() + "_" + licenseFrontImage.getOriginalFilename();
-        String licenseRearFileName = UUID.randomUUID() + "_" + licenseRearImage.getOriginalFilename();
 
-        // Save the uploaded images to the upload directory
-        frontViewImage.transferTo(uploadPath.resolve(frontViewFileName));
-        rearViewImage.transferTo(uploadPath.resolve(rearViewFileName));
-        sideViewImage.transferTo(uploadPath.resolve(sideViewFileName));
-        frontInteriorImage.transferTo(uploadPath.resolve(frontInteriorFileName));
-        rearInteriorImage.transferTo(uploadPath.resolve(rearInteriorFileName));
-        licenseFrontImage.transferTo(uploadPath.resolve(licenseFrontFileName));
-        licenseRearImage.transferTo(uploadPath.resolve(licenseRearFileName));
+    @GetMapping("/getAllData")
+    public ResponseEntity<List<VehicleDTO>> getAllData() {
+        List<Vehicle> vehicleData = vehicleService.getAllData();
 
-        return new ResponseUtil(201, "Images uploaded successfully", null);
+        if (!vehicleData.isEmpty()) {
+            // Convert Vehicle entities to VehicleDTOs
+            List<VehicleDTO> vehicleDTOList = vehicleData.stream()
+                    .map(vehicle -> dataTypeConversion.getVehicleDTO(vehicle))
+                    .collect(Collectors.toList());
+            return ResponseEntity.ok(vehicleDTOList);
+        } else {
+            return ResponseEntity.noContent().build();
+        }
+    }
+
+    @GetMapping("/getData/{vehicleId}")
+    public ResponseUtil getVehicleByVehicleId(@PathVariable Long vehicleId){
+        Optional<Vehicle> byId = vehicleService.findById(vehicleId);
+        return new ResponseUtil(200,"find",byId);
     }
 }

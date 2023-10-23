@@ -1,6 +1,5 @@
 package lk.ijse.gdse.VehicleService.dto;
 
-import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,25 +21,11 @@ public class VehicleDTO {
     private String driverContactNo;
     private String remarks;
 
-    @Column(columnDefinition = "MEDIUMBLOB")
     private byte[] frontViewImage;
-
-    @Column(columnDefinition = "MEDIUMBLOB")
     private byte[] rearViewImage;
-
-    @Column(columnDefinition = "MEDIUMBLOB")
     private byte[] sideViewImage;
-
-    @Column(columnDefinition = "MEDIUMBLOB")
     private byte[] frontInteriorImage;
-
-    @Column(columnDefinition = "MEDIUMBLOB")
     private byte[] rearInteriorImage;
-
-    @Column(columnDefinition = "MEDIUMBLOB")
     private byte[] licenseFrontImage;
-
-    @Column(columnDefinition = "MEDIUMBLOB")
     private byte[] licenseRearImage;
-
 }
