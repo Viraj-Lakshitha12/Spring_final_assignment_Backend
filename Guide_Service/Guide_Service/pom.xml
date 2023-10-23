@@ -73,7 +73,6 @@
             <version>7.0.2.Final</version> <!-- Use the latest version -->
         </dependency>
 
-
     </dependencies>
 
 	<build>
