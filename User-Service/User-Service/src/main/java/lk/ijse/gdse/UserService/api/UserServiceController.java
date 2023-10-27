@@ -48,7 +48,6 @@ public class UserServiceController {
                 return ResponseEntity.status(HttpStatus.OK).body("Login success");
             } else {System.out.println("log Not");
 
-                // Password does not match
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Login failed: Incorrect password");
             }
         } else {
