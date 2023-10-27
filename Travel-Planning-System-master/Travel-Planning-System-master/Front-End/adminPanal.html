@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Panel</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/bootstrap-5.3.2-dist/css/bootstrap.min.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
+  <link rel="stylesheet" href="css/style/Admin.css">
+</head>
+<body>
+
+<!-- Modal -->
+<div class="modal fade" id="conformation-alert" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" >
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+        <button type="button" class="close btn" data-dismiss="modal" aria-label="Close" id="conformation-close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="model-body">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="conformation-close-btn">Close</button>
+        <button type="button" class="btn btn-primary" id="conformation-ok-btn">Conform</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Notification -->
+<div aria-live="polite" aria-atomic="true" style="position: fixed; right: 0; min-height: 200px ; z-index: 1000">
+  <!-- Position it -->
+<div style="position: absolute; top: 0; right: 0;">
+
+    <!-- Then put toasts within -->
+<div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="toast-header">
+        <strong class="mr-auto" id="notification-header">Bootstrap</strong>
+        <small class="text-muted" id="notification-time">just now</small>
+        <button type="button" class="ml-2 mb-1 close btn box-size-remove" data-dismiss="toast" aria-label="Close" id="btn-notification-close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="toast-body" id="notification-desc">
+        See? Just like this.
+      </div>
+    </div>
+  </div>
+</div>
+<section id="body-pd">
+<header class="header" id="header">
+  <div class="header_toggle"> <i class='bx bx-menu' id="header-toggle"></i> </div>
+  <ul class="navbar mt-2" id="header-list">
+      <p class="h1 pt-2 fw-bold text-primary" id="header-title">Dashboard</p>
+  </ul>
+  <div class="header_img"> <img src="" alt=""> </div>
+</header>
+<div class="l-navbar" id="nav-bar">
+  <nav class="nav" >
+      <p class="text-light  mt-2 mb-0 " style="height: 1rem; margin-left: 1.9rem">
+        <i class='bx bxs-user'></i>
+        <span class="ms-3">
+        Sudeera
+        </span>
+      </p>
+      <div class=' nav_link'>
+        <a href="#!" class="dashboard-nav-item text-light">
+          <i class='bx bxs-dashboard'></i> Dashboard
+        </a>
+      </div>
+
+    <ul class="dashboard-nav-dropdown nav_link nav nav-pills flex-column mb-sm-auto mb-0 align-items-center  dashboard-nav-item align-items-sm-start " id="guide-menu">
+      <li>
+        <a href="#submenu1" data-bs-toggle="collapse" class="nav-link px-0 align-middle text-light">
+          <i class='bx bx-run'></i> <span class="ms-1 d-none d-sm-inline">Guide</span> </a>
+        <ul class="collapse  nav flex-column ms-1" id="submenu1" data-bs-parent="#menu">
+          <li class="w-100" id="btnNewGuide">
+            <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline" >Create Guide</span></a>
+          </li>
+          <li id="btnGuideList">
+            <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Guide List</span></a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+    <ul class="dashboard-nav-dropdown nav_link nav nav-pills flex-column mb-sm-auto mb-0 align-items-center  dashboard-nav-item align-items-sm-start " id="vehicle-menu">
+      <li>
+        <a href="#submenu2" data-bs-toggle="collapse" class="nav-link px-0 align-middle text-light">
+          <i class='bx bx-car'></i><span class="ms-1 d-none d-sm-inline">Vehicle</span> </a>
+        <ul class="collapse  nav flex-column ms-1" id="submenu2" data-bs-parent="#menu">
+          <li class="w-100" id="btnNewVehicle">
+            <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Create Vehicle</span></a>
+          </li>
+          <li id="btnVehicleList">
+            <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Vehicle List</span></a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+    <ul class="dashboard-nav-dropdown nav_link nav nav-pills flex-column mb-sm-auto mb-0 align-items-center  dashboard-nav-item align-items-sm-start " id="hotel-menu">
+      <li>
+        <a href="#submenu3" data-bs-toggle="collapse" class="nav-link px-0 align-middle text-light">
+          <i class='bx bx-building-house'></i><span class="ms-1 d-none d-sm-inline">Hotel</span> </a>
+        <ul class="collapse  nav flex-column ms-1" id="submenu3" data-bs-parent="#menu">
+          <li class="w-100" id="btnNewHoetel">
+            <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Create Hotel</span></a>
+          </li>
+          <li id="btnHotelList">
+            <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Hotel List</span></a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+
+    <a href="#" class="nav_link ps-4">
+      <i class='bx bx-log-out nav_icon '></i>
+      <span class="nav_name">SignOut</span> </a>
+  </nav>
+</div>
+</section>
+<!--Login-->
+<div class="container" id="login" style="position: relative; right: 3vw">
+  <div class="row justify-content-center align-items-center" style="height: 75vh;">
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title text-center text-primary ">Login</h5>
+          <form>
+            <div class="form-group">
+              <label for="username">Username</label>
+              <input type="text" class="form-control box-size-remove" id="username" placeholder="Enter your username">
+            </div>
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input type="password" class="form-control box-size-remove" id="password"  autocomplete="none" placeholder="Enter your password">
+            </div>
+            <button type="button" class="btn btn-primary btn-block mt-2" id="btn-login">Login</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<section class="guide-section" id="guideSection">
+  <section class="container" id="new-guide">
+    <div class="row">
+      <div class="col-11">
+        <form>
+<!--          <div class="form-outline mb-2 mt-2">-->
+<!--            <h2 class="card-header text-primary text-center fw-bolder">Add New Guide</h2>-->
+<!--          </div>-->
+          <!-- Text input -->
+          <div class="form-outline mb-2 mt-2">
+            <label class="form-label" for="name">Full name</label>
+            <input type="text" id="name" class="form-control" />
+          </div>
+
+          <!-- Text input -->
+          <div class="form-outline mb-2">
+            <label class="form-label" for="address">Address</label>
+            <input type="text" id="address" class="form-control" />
+          </div>
+          <div class="row mb-2">
+            <div class="col mt-3">
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="gender" id="male" value="male" checked>
+                <label class="form-check-label" for="male">Male</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="gender" id="female" value="female" checked>
+                <label class="form-check-label" for="female">Female</label>
+              </div>
+            </div>
+            <div class="col">
+              <div class="form-outline">
+                <label class="form-label" for="contact">Contact</label>
+                <input type="text" id="contact" class="form-control" />
+              </div>
+            </div>
+            <div class="col">
+              <div class="form-outline">
+                <label class="form-label" for="age">Age</label>
+                <input type="number" id="age" class="form-control" />
+              </div>
+            </div>
+            <div class="col">
+              <div class="form-outline">
+                <label class="form-label" for="experience">Experience</label>
+                <input type="number" id="experience" class="form-control" />
+              </div>
+            </div>
+            <div class="col">
+              <div class="form-outline">
+                <label class="form-label" for="manDayValue">Man Day Value</label>
+                <input type="number" id="manDayValue" class="form-control" />
+              </div>
+            </div>
+          </div>
+          <!-- Checkbox -->
+<!--          <div class="form-check d-flex justify-content-center mb-2">-->
+<!--            <input class="form-check-input me-2" type="checkbox" value="" id="form6Example8" checked />-->
+<!--            <label class="form-check-label" for="form6Example8"> Create an account? </label>-->
+<!--          </div>-->
+          <div class="row mb-2">
+            <div class="col">
+              <div class="file-upload">
+                <label class="form-label file-upload-label" for="guideImage">Guide Image</label>
+                <div class="image-upload-wrap" id="guideImageWrap">
+                  <input class="file-upload-input" type='file' onchange="readURL(this);" accept="image/*" id="guideImage"/>
+                  <div class="drag-text">
+                    <a href="">drag here</a>
+                  </div>
+                </div>
+                <div class="file-upload-content" id="guideFileUploadContent">
+                  <img class="file-upload-image" src="#" alt="your image" id="guideFileUploadImage"/>
+                  <div class="image-title-wrap">
+                    <button type="button" onclick="removeUpload()" class="remove-image">Remove <span class="image-title" id="guideImageTitle">Image</span></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="file-upload">
+                <label class="form-label file-upload-label" for="guideImage">Guide Image</label>
+                <div class="image-upload-wrap" id="guideNfImageWrap">
+                  <input class="file-upload-input" type='file' onchange="readURL(this);" accept="image/*" id="guideNfImage"/>
+                  <div class="drag-text">
+                    <a href="">drag here</a>
+                  </div>
+                </div>
+                <div class="file-upload-content" id="guideNfFileUploadContent">
+                  <img class="file-upload-image" src="#" alt="your image" id="guideNfFileUploadImage"/>
+                  <div class="image-title-wrap">
+                    <button type="button" onclick="removeUpload()" class="remove-image">Remove <span class="image-title" id="guideNfImageTitle">Image</span></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="file-upload">
+                <label class="form-label file-upload-label" for="guideImage">Guide Image</label>
+                <div class="image-upload-wrap" id="guideNbImageWrap">
+                  <input class="file-upload-input" type='file' onchange="readURL(this);" accept="image/*" id="guideNbImage"/>
+                  <div class="drag-text">
+                    <a href="">drag here</a>
+                  </div>
+                </div>
+                <div class="file-upload-content" id="guideNbFileUploadContent">
+                  <img class="file-upload-image" src="#" alt="your image" id="guideNbFileUploadImage"/>
+                  <div class="image-title-wrap">
+                    <button type="button" onclick="removeUpload()" class="remove-image">Remove <span class="image-title" id="guideNbImageTitle">Image</span></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="file-upload">
+                <label class="form-label file-upload-label" for="guideImage">Guide Image</label>
+                <div class="image-upload-wrap" id="guideIfImageWrap">
+                  <input class="file-upload-input" type='file' onchange="readURL(this);" accept="image/*" id="guideIfImage"/>
+                  <div class="drag-text">
+                    <a href="">drag here</a>
+                  </div>
+                </div>
+                <div class="file-upload-content" id="guideIfFileUploadContent">
+                  <img class="file-upload-image" src="#" alt="your image" id="guideIfFileUploadImage"/>
+                  <div class="image-title-wrap">
+                    <button type="button" onclick="removeUpload()" class="remove-image">Remove <span class="image-title" id="guideIfImageTitle">Image</span></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="file-upload">
+                <label class="form-label file-upload-label" for="guideIbImage">Guide ID Image Back</label>
+                <div class="image-upload-wrap" id="guideIbImageWrap">
+                  <input class="file-upload-input" type='file' onchange="readURL(this);" accept="image/*" id="guideIbImage"/>
+                  <div class="drag-text">
+                    <a href="">drag here</a>
+                  </div>
+                </div>
+                <div class="file-upload-content" id="guideIbFileUploadContent">
+                  <img class="file-upload-image" src="#" alt="your image" id="guideIbFileUploadImage"/>
+                  <div class="image-title-wrap">
+                    <button type="button" onclick="removeUpload()" class="remove-image">Remove <span class="image-title" id="guideIbImageTitle">Image</span></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-outline mb-2">
+            <label class="form-label" for="remarks">Additional information</label>
+            <textarea class="form-control" id="remarks" rows="4"></textarea>
+          </div>
+          <!-- Submit button -->
+          <button type="button" id="btnCreateGuide" class="btn btn-primary btn-block mb-2">Create</button>
+          <button type="button" id="btnUpdateGuide" class="btn btn-success btn-block mb-2">Update</button>
+          <button type="button" id="btnDeleteGuide" class="btn btn-danger btn-block mb-2">Delete</button>
+          <button type="button" id="btnCancelUpdateGuide" class="btn btn-light btn-block mb-2">Cancel</button>
+        </form>
+      </div>
+    </div>
+  </section>
+  <section id="guide-list">
+    <table class="table align-middle mb-0 bg-white">
+      <thead class="bg-light">
+      <tr>
+        <th>Name</th>
+        <th>Gender</th>
+        <th>Age</th>
+        <th>Experience</th>
+        <th>Man Day Value</th>
+        <th>Contact</th>
+        <th>NIC</th>
+        <th>Passport</th>
+        <th>Remarks</th>
+        <th>Action</th>
+      </tr>
+      </thead>
+      <tbody id="guide-table-body">
+      </tbody>
+    </table>
+  </section>
+</section>
+<section class="vehicle-section" id="vehicleSection">
+  <section class="container" id="newVehicleContainer">
+    <div class="row">
+      <div class="col-11">
+        <form>
+          <div class="form-outline mb-2 mt-2">
+            <label class="form-label" for="vehicle-brand">Brand</label>
+            <input type="text" id="vehicle-brand" class="form-control" />
+          </div>
+
+          <div class="row mb-2">
+            <div class="form-outline mb-2 mt-2 col-3">
+              <label class="form-label" for="name">Category</label>
+              <select class="form-select" aria-label="Default select example" id="vehicleCategory">
+                <option selected>Select</option>
+                <option value="1">Economy</option>
+                <option value="2">Mid-Range</option>
+                <option value="3">Luxury</option>
+                <option value="4">Super Luxury</option>
+              </select>
+            </div>
+
+            <div class="form-outline mb-2 mt-2 col-3">
+              <label class="form-label" for="name">Vehicle Type</label>
+              <select class="form-select" aria-label="Default select example" id="vehicleType">
+                <option selected>Select</option>
+                <option value="1">Car</option>
+                <option value="2">Van (7-12 seats)</option>
+                <option value="3">Luxury</option>
+                <option value="4">Bus (30-40 seats)</option>
+              </select>
+            </div>
+
+            <div class="col mt-md-4">
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="fuel-type" id="diesel" value="Diesel" checked>
+                <label class="form-check-label" for="diesel">Diesel</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="fuel-type" id="petrol" value="Petrol" checked>
+                <label class="form-check-label" for="petrol">Petrol</label>
+              </div>
+            </div>
+            <div class="form-outline mt-sm-4 col">
+              <div class="form-check d-flex justify-content-start mb-2">
+                <input class="form-check-input me-2" type="checkbox" value="" id="isAutoGear" checked />
+                <label class="form-check-label" for="isAutoGear"> Auto Gear </label>
+              </div>
+              <div class="form-check d-flex justify-content-start mb-2">
+                <input class="form-check-input me-2" type="checkbox" value="" id="isHybrid" checked />
+                <label class="form-check-label" for="isHybrid"> Hybrid </label>
+              </div>
+            </div>
+            <div class="col">
+              <div class="form-outline">
+                <label class="form-label" for="age">Fuel Usage</label>
+                <input type="number" id="vehicle-fuel-usage" class="form-control" />
+              </div>
+            </div>
+            <div class="col">
+              <div class="form-outline">
+                <label class="form-label" for="age">Seat Capacity</label>
+                <input type="number" id="vehicle-seat-capacity" class="form-control" />
+              </div>
+            </div>
+          </div>
+          <div class="row">
+
+            <div class="col  border  rounded">
+              <div class="row">
+                <div class="col">
+                  <div class="form-outline mb-2">
+                    <label class="form-label" for="vehicle-driver-name">Driver Name</label>
+                    <input type="text" id="vehicle-driver-name" class="form-control" />
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <div class="form-outline mb-2">
+                    <label class="form-label" for="vehicle-driver-name">Driver Contact</label>
+                    <input type="text" id="vehicle-driver-contact" class="form-control" />
+                  </div>
+                </div>
+              </div>
+              <div class="row mb-2">
+                <div class="col">
+                  <div class="file-upload">
+                    <label class="form-label file-upload-label" for="driverLicenseFrontImage">License Front</label>
+                    <div class="image-upload-wrap" id="driverLicenseFrontImageWrap">
+                      <input class="file-upload-input" type='file' onchange="readURL(this);" accept="image/*" id="driverLicenseFrontImage"/>
+                      <div class="drag-text">
+                        <a href="">drag here</a>
+                      </div>
+                    </div>
+                    <div class="file-upload-content" id="driverLicenseFrontFileUploadContent">
+                      <img class="file-upload-image" src="#" alt="your image" id="driverLicenseFrontFileUploadImage"/>
+                      <div class="image-title-wrap">
+                        <button type="button" onclick="removeUpload()" class="remove-image">Remove <span class="image-title" id="driverLicenseFrontImageTitle">Image</span></button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="file-upload">
+                    <label class="form-label file-upload-label" for="driverLicenseBackImage">License Back</label>
+                    <div class="image-upload-wrap" id="driverLicenseBackImageWrap">
+                      <input class="file-upload-input" type='file' onchange="readURL(this);" accept="image/*" id="driverLicenseBackImage"/>
+                      <div class="drag-text">
+                        <a href="">drag here</a>
+                      </div>
+                    </div>
+                    <div class="file-upload-content" id="driverLicenseBackFileUploadContent">
+                      <img class="file-upload-image" src="#" alt="your image" id="driverLicenseBackFileUploadImage"/>
+                      <div class="image-title-wrap">
+                        <button type="button" onclick="removeUpload()" class="remove-image">Remove <span class="image-title" id="driverLicenseBackImageTitle">Image</span></button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+
+            </div>
+            <div class="col ms-3   rounded">
+              <div class="row mt-2">
+
+                <div class="col">
+                  <div class="file-upload">
+                    <label class="form-label file-upload-label" for="vehicleFrontImage">Front View</label>
+                    <div class="image-upload-wrap" id="vehicleFrontImageWrap">
+                      <input class="file-upload-input" type='file' onchange="readURL(this);" accept="image/*" id="vehicleFrontImage"/>
+                      <div class="drag-text">
+                        <a href="">drag here</a>
+                      </div>
+                    </div>
+                    <div class="file-upload-content" id="vehicleFrontFileUploadContent">
+                      <img class="file-upload-image" src="#" alt="your image" id="vehicleFrontFileUploadImage"/>
+                      <div class="image-title-wrap">
+                        <button type="button" onclick="removeUpload()" class="remove-image">Remove <span class="image-title" id="vehicleFrontImageTitle">Image</span></button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col">
+                  <div class="file-upload">
+                    <label class="form-label file-upload-label" for="vehicleRearImage">Rear View</label>
+                    <div class="image-upload-wrap" id="vehicleRearImageWrap">
+                      <input class="file-upload-input" type='file' onchange="readURL(this);" accept="image/*" id="vehicleRearImage"/>
+                      <div class="drag-text">
+                        <a href="">drag here</a>
+                      </div>
+                    </div>
+                    <div class="file-upload-content" id="vehicleRearFileUploadContent">
+                      <img class="file-upload-image" src="#" alt="your image" id="vehicleRearFileUploadImage"/>
+                      <div class="image-title-wrap">
+                        <button type="button" onclick="removeUpload()" class="remove-image">Remove <span class="image-title" id="vehicleRearImageTitle">Image</span></button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+              <div class="row mt-2">
+
+                <div class="col">
+                  <div class="file-upload">
+                    <label class="form-label file-upload-label" for="vehicleSideImage">Side View</label>
+                    <div class="image-upload-wrap" id="vehicleSideImageWrap">
+                      <input class="file-upload-input" type='file' onchange="readURL(this);" accept="image/*" id="vehicleSideImage"/>
+                      <div class="drag-text">
+                        <a href="">drag here</a>
+                      </div>
+                    </div>
+                    <div class="file-upload-content" id="vehicleSideFileUploadContent">
+                      <img class="file-upload-image" src="#" alt="your image" id="vehicleSideFileUploadImage"/>
+                      <div class="image-title-wrap">
+                        <button type="button" onclick="removeUpload()" class="remove-image">Remove <span class="image-title" id="vehicleSideImageTitle">Image</span></button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col">
+                  <div class="file-upload">
+                    <label class="form-label file-upload-label" for="vehicleFrontInteriorImage">Front Interior View</label>
+                    <div class="image-upload-wrap" id="vehicleFrontInteriorImageWrap">
+                      <input class="file-upload-input" type='file' onchange="readURL(this);" accept="image/*" id="vehicleFrontInteriorImage"/>
+                      <div class="drag-text">
+                        <a href="">drag here</a>
+                      </div>
+                    </div>
+                    <div class="file-upload-content" id="vehicleFrontInteriorFileUploadContent">
+                      <img class="file-upload-image" src="#" alt="your image" id="vehicleFrontInteriorFileUploadImage"/>
+                      <div class="image-title-wrap">
+                        <button type="button" onclick="removeUpload()" class="remove-image">Remove <span class="image-title" id="vehicleFrontInteriorImageTitle">Image</span></button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+          <div class="row mt-2">
+            <div class="col-9">
+              <div class="form-outline mb-2">
+                <label class="form-label" for="remarks">Additional information</label>
+                <textarea class="form-control" id="vehicle-remarks" rows="4"></textarea>
+              </div>
+            </div>
+            <div class="col-3">
+              <div class="file-upload">
+                <label class="form-label file-upload-label" for="vehicleRearInteriorImage">Rear Interior View</label>
+                <div class="image-upload-wrap" id="vehicleRearInteriorImageWrap">
+                  <input class="file-upload-input" type='file' onchange="readURL(this);" accept="image/*" id="vehicleRearInteriorImage"/>
+                  <div class="drag-text">
+                    <a href="">drag here</a>
+                  </div>
+                </div>
+                <div class="file-upload-content" id="vehicleRearInteriorFileUploadContent">
+                  <img class="file-upload-image" src="#" alt="your image" id="vehicleRearInteriorFileUploadImage"/>
+                  <div class="image-title-wrap">
+                    <button type="button" onclick="removeUpload()" class="remove-image">Remove <span class="image-title" id="vehicleRearInteriorImageTitle">Image</span></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Submit button -->
+          <button type="button" id="btnCreateVehicle" class="btn btn-primary btn-block mb-2">Create</button>
+          <button type="button" id="btnUpdateVehicle" class="btn btn-success btn-block mb-2">Update</button>
+          <button type="button" id="btnDeleteVehicle" class="btn btn-danger btn-block mb-2">Delete</button>
+          <button type="button" id="btnCancelUpdateVehicle" class="btn btn-light btn-block mb-2">Cancel</button>
+        </form>
+      </div>
+    </div>
+  </section>
+  <section id="vehicleListContainer">
+    <table class="table align-middle mb-0 bg-white">
+      <thead class="bg-light">
+      <tr>
+        <th>Vehicle</th>
+        <th>Fuel</th>
+        <th>Seat</th>
+        <th>Images</th>
+        <th>Driver</th>
+        <th>Contact</th>
+        <th>License</th>
+        <th>Remarks</th>
+        <th>Action</th>
+      </tr>
+      </thead>
+      <tbody id="vehicle-table-body">
+
+      </tbody>
+    </table>
+  </section>
+</section>
+<section class="hotel-section" id="hotel-Section">
+  <section class="container" id="newHotelContainer">
+    <div class="row">
+      <div class="col-11">
+        <form>
+          <div class="form-outline mb-2 mt-2">
+            <label class="form-label" for="hotelName">Hotel Name</label>
+            <input type="text" id="hotelName" class="form-control" />
+          </div>
+
+          <div class="form-outline mb-2 mt-2">
+            <label class="form-label" for="hotelLocation">Location Address</label>
+            <input type="text" id="hotelLocation" class="form-control" />
+          </div>
+
+          <div class="form-outline mb-2 mt-2">
+            <label class="form-label" for="hotelLocationMap">Location Map src</label>
+            <input type="text" id="hotelLocationMap" class="form-control" />
+          </div>
+
+          <div class="form-outline mb-2 mt-2">
+            <label class="form-label" for="hotelEmail">Email</label>
+            <input type="text" id="hotelEmail" class="form-control" />
+          </div>
+
+          <div class="row mb-2">
+            <div class="form-outline col">
+              <label class="form-label" for="hotelCategory">Star Rate</label>
+              <select class="form-select" aria-label="Default select example" id="hotelCategory">
+                <option selected>Select</option>
+                <option value="1">2 Star</option>
+                <option value="2">3 Star</option>
+                <option value="3">4 Star</option>
+                <option value="4">5 Star</option>
+              </select>
+            </div>
+            <div class="form-outline mt-sm-4 col">
+              <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="petIsAllowed">
+                <label class="form-check-label" for="petIsAllowed">Pets Allowed</label>
+              </div>
+              <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="cancellationCriteriaIsFree" checked>
+                <label class="form-check-label" for="cancellationCriteriaIsFree">Cancel is Free</label>
+              </div>
+            </div>
+            <fieldset class="col mt-2"  id="cancellationFeeEnabel" disabled>
+              <label class="form-check-label" for="cancellationFee"> Cancellation Fee </label>
+            <div class="input-group col h-25 mt-2">
+              <div class="input-group-prepend">
+                <span class="input-group-text">$</span>
+              </div>
+              <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)" id="cancellationFee" >
+              <div class="input-group-append">
+                <span class="input-group-text">.00</span>
+              </div>
+            </div>
+            </fieldset>
+          </div>
+          <div class="row mb-3">
+
+            <div class="col">
+              <div class="form-outline ">
+                <label class="form-label" for="hotelContactOne">Contact No One</label>
+                <input type="text" id="hotelContactOne" class="form-control" />
+              </div>
+            </div>
+            <div class="col">
+              <div class="form-outline">
+                <label class="form-label" for="hotelContactTwo">Contact No Two</label>
+                <input type="text" id="hotelContactTwo" class="form-control" />
+              </div>
+            </div>
+
+
+          </div>
+          <div class="row">
+            <div class="col">
+              <fieldset class="col ">
+              <label class="form-check-label" for="cancellationFee">Full Board with A/C Luxury Room Double Charge</label>
+              <div class="input-group col h-25 mt-1">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">$</span>
+                </div>
+                <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)" id="fullBoardWithACLuxuryRoomDoubleCharge" >
+                <div class="input-group-append">
+                  <span class="input-group-text">.00</span>
+                </div>
+              </div>
+              </fieldset>
+            </div>
+            <div class="col">
+              <fieldset class="col ">
+              <label class="form-check-label" for="cancellationFee">Half Board with A/C Luxury Room Double Charge</label>
+              <div class="input-group col h-25 mt-1">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">$</span>
+                </div>
+                <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)" id="halfBoardWithACLuxuryRoomDoubleCharge" >
+                <div class="input-group-append">
+                  <span class="input-group-text">.00</span>
+                </div>
+              </div>
+              </fieldset>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col">
+              <fieldset class="col ">
+              <label class="form-check-label" for="cancellationFee">Full Board with A/C Luxury Room Triple Charge</label>
+              <div class="input-group col h-25 mt-1">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">$</span>
+                </div>
+                <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)" id="fullBoardWithACLuxuryRoomTripleCharge" >
+                <div class="input-group-append">
+                  <span class="input-group-text">.00</span>
+                </div>
+              </div>
+              </fieldset>
+            </div>
+            <div class="col">
+              <fieldset class="col ">
+              <label class="form-check-label" for="cancellationFee">Half Board with A/C Luxury Room Triple Charge</label>
+              <div class="input-group col h-25 mt-1">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">$</span>
+                </div>
+                <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)" id="halfBoardWithACLuxuryRoomTripleCharge" >
+                <div class="input-group-append">
+                  <span class="input-group-text">.00</span>
+                </div>
+              </div>
+              </fieldset>
+            </div>
+          </div>
+          <div class="row mb-4 mt-3 border rounded" id="hotelImageContainer">
+            <label class="form-label file-upload-label mt-2" for="hotelImageChooserImage">Images</label>
+            <div class="col-2 mt-1 mb-1" id="hotelImageUpload">
+              <div class="file-upload">
+                <div class="image-upload-wrap" id="hotelImageChooserImageWrap">
+                  <input class="file-upload-input" type='file' onchange="readURLHotelImages(this);" accept="image/*" id="hotelImageChooserImage"/>
+                  <div class="drag-text">
+                    <a href="">drag here</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-outline mb-2">
+            <label class="form-label" for="remarks">Additional information</label>
+            <textarea class="form-control" id="remarks" rows="4"></textarea>
+          </div>
+          <!--<div class="row mb-4 border rounded" id="hotelRoomContainer">
+            <div class="row">
+            <button type="button" class="btn btn-outline-primary col-2 m-2" onclick="addHotelRoom()">Add Room</button>
+            <label class="form-label file-upload-label mt-2 col" for="hotelImageChooserImage">Hotel Rooms</label>
+            </div>
+
+          </div>-->
+          <button type="button" id="btnCreateHotel" class="btn btn-primary btn-block mb-2">Create</button>
+          <button type="button" id="btnUpdateHotel" class="btn btn-success btn-block mb-2">Update</button>
+          <button type="button" id="btnDeleteHotel" class="btn btn-danger btn-block mb-2">Delete</button>
+          <button type="button" id="btnCancelUpdateHotel" class="btn btn-light btn-block mb-2">Cancel</button>
+        </form>
+      </div>
+    </div>
+  </section>
+  <section id="hotelListContainer">
+    <table class="table align-middle mb-0 bg-white">
+      <thead class="bg-light">
+      <tr>
+        <th>Name</th>
+        <th>Category</th>
+        <th>Contact</th>
+        <th>Pets Allowed</th>
+        <th>Cancellation Criteria</th>
+        <th>Images</th>
+        <th>Action</th>
+      </tr>
+      </thead>
+      <tbody id="hotel-table-body">
+      </tbody>
+    </table>
+  </section>
+</section>
+
+<script src="css/bootstrap-5.3.2-dist/js/bootstrap.min.js"></script>
+<script src="lib/jquery.js"></script>
+<script type="module" src="controller/GuideController.js"></script>
+<script type="module" src="controller/MainController.js"></script>
+<script type="module" src="controller/VehicleController.js"></script>
+<script type="module" src="controller/HotelController.js"></script>
+<script  type="module" src="model/Guide.js"></script>
+<script>
+
+
+  /*function addHotelRoom(){
+    let data=`
+            <div class="col-2 mt-1 mb-1">
+              <input class="form-control form-control-sm mb-1" style="max-width: 150px" type="text" placeholder="Room Type">
+              <div class="file-upload">
+                <div class="image-upload-wrap"  style="max-width: 150px" >
+                  <input class="file-upload-input" type='file' onchange="readURLHotelRoomImages(this);" accept="image">
+                  <div class="drag-text">
+                    <a href="">drag here</a>
+                  </div>
+                </div>
+              </div>
+              <button type="button" onclick="removeUploadHotelRoom(this)" style="max-width: 150px" class="remove-image">Remove <span class="image-title">Room</span></button>
+            </div>`
+
+    $('#hotelRoomContainer').append(data)
+  }*/
+
+  /*function readURLHotelRoomImages(input) {
+    if (input.files && input.files[0]) {
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        let data=`<div class="col-2 border" style="margin:max-width: 150px">
+                    <img class="file-upload-image" src="${e.target.result}" sizes="height: 5vw; "/>
+                 </div>`
+        // input.parentElement.parentElement.parentElement.insertAdjacentHTML('beforeend', data);
+        // console.log(input.parentElement.parentElement.parentElement.children[2].before(data));
+        var parentElement = input.parentElement.parentElement.parentElement;
+        var lastElement = parentElement.lastElementChild; // Get the last element
+
+// Insert the HTML content before the last element
+        input.parentElement.parentElement.remove()
+        lastElement.insertAdjacentHTML('beforebegin', data);
+      }
+
+      reader.readAsDataURL(input.files[0]);
+
+    } else {
+      removeUpload();
+    }
+  }*/
+  function readURL(input) {
+    if (input.files && input.files[0]) {
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        let id='#' + input.id.split("Image")[0]
+        $(id+'ImageWrap').hide();
+        $(id+'FileUploadImage').attr('src', e.target.result);
+        $(id+'FileUploadContent').show();
+        $(id+'ImageTitle').html(input.files[0].name);
+      }
+
+      reader.readAsDataURL(input.files[0]);
+
+    } else {
+      removeUpload();
+    }
+  }
+  function readURLHotelImages(input) {
+    if (input.files && input.files[0]) {
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        let data=`
+               <div class="col-2 border" style="margin: .5vw; min-width: 100px">
+                <img class="file-upload-image" src="${e.target.result}"  style="width: 10vw; height: 5vw; "/>
+                  <div class="image-title-wrap">
+                   <button type="button" onclick="removeUploadHotelImage(this)" class="remove-image">Remove <span class="image-title">Image</span></button>
+                   </div>
+                 </div>`
+        $('#hotelImageUpload').before(data)
+      }
+
+      reader.readAsDataURL(input.files[0]);
+
+    } else {
+      removeUpload();
+    }
+  }
+
+  let removeUploadHotelImage = (element) => {
+    element.parentElement.parentElement.remove()
+  }
+  let removeUploadHotelRoom = (element) => {
+    element.parentElement.remove();
+  }
+  let openGuide= () => {
+    $('#header-list').append(
+            `<li><a href="#" id="btnGuideList" className="fw-bolder">Guide List</a>
+        <li><a href="#" id="btnNewGuide" className="fw-bolder">New Guide</a>`
+    )
+  }
+
+  function removeUpload() {
+    // $(event.target).parent().parent().parent().parent().children().eq(1).children().eq(0).replaceWith($(event.target).parent().parent().parent().parent().children().eq(1).children().eq(0).clone());
+    // $(event.target).parent().parent().parent().parent().children().eq(1).show();
+    // $(event.target).parent().parent().parent().eq(0).children().eq(2).hide();
+
+
+    // $('.file-upload-input').replaceWith($('.file-upload-input').clone());
+    $('.file-upload-content').hide();
+    $('.image-upload-wrap').show();
+  }
+
+  let showToast= (type,name) => {
+    $('#notification-header').text(type);
+    $('#notification-time').text("");
+    $('#notification-desc').text(name);
+    $('.toast').toast('show')
+  }
+
+  let base64ToFile= (imageDataUrl) => {
+    let dataUrlParts = imageDataUrl.split(",");
+    let contentType = dataUrlParts[0].split(":")[1].split(";")[0];
+    let byteCharacters = atob(dataUrlParts[1]);
+    let byteNumbers = new Array(byteCharacters.length);
+    for (let i = 0; i < byteCharacters.length; i++) {
+      byteNumbers[i] = byteCharacters.charCodeAt(i);
+    }
+    let byteArray = new Uint8Array(byteNumbers);
+    return new Blob([byteArray], { type: contentType });
+  }
+
+
+
+</script>
+</body>
+</html>
