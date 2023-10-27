@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Hotel Service</title>
+
+  <!-- Include CSS and Bootstrap -->
+  <link href="css/font-face.css" rel="stylesheet" media="all">
+  <link href="vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
+  <link href="vendor/font-awesome-5/css/fontawesome-all.min.css" rel="stylesheet" media="all">
+  <link href="vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
+  <link href="vendor/bootstrap-4.1/bootstrap.min.css" rel="stylesheet" media="all">
+  <link href="css/User_form.css" rel="stylesheet" media="all">
+</head>
+<body>
+<div class="container row">
+  <!-- Form 1 -->
+  <div class="col-lg-6">
+    <div class="card">
+      <div class="card-header bg-success text-white">
+        <strong>FORM 1</strong>
+      </div>
+      <div class="card-body">
+        <form>
+          <div class="form-group">
+            <label for="hotel_Id" class="form-control-label">Hotel ID:</label>
+            <input type="text" id="hotel_Id" placeholder="123" class="form-control">
+          </div>
+
+          <div class="form-group">
+            <label for="hotel_Name" class="form-control-label">Hotel Name :</label>
+            <input type="text" id="hotel_Name" placeholder="Colombo" class="form-control">
+          </div>
+
+          <label for="hotelPlan">Select Hotel Plan:</label>
+          <select class="hotel-category" id="hotelPlan" onchange="updateHotelCategories()">
+            <option value="">Select a hotel plan</option>
+            <option value="regular">Regular</option>
+            <option value="mid-range">Mid-Range</option>
+            <option value="luxury">Luxury</option>
+            <option value="super-luxury">Super Luxury</option>
+          </select><br><br>
+          <label for="hotelCategory">Select Hotel Category:</label>
+          <select id="hotelCategory">
+            <option value="">Select a hotel category</option>
+          </select><br><br>
+
+          <div class="form-group">
+            <label for="Hotel_Location" class="form-control-label">Hotel Location:</label>
+            <input type="text" id="Hotel_Location" placeholder="Colombo" class="form-control">
+          </div>
+
+          <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d15832.772810034108!2d80.4683776!3d7.2187904!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2slk!4v1697872505193!5m2!1sen!2slk"
+                  width="300"
+                  height="300"
+                  style="border:0;"
+                  referrerpolicy="no-referrer-when-downgrade">
+          </iframe>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Form 2 -->
+  <div class="col-lg-6">
+    <div class="card">
+      <div class="card-header bg-success text-white">
+        <strong>FORM 2</strong>
+      </div>
+      <div class="card-body">
+        <form>
+          <div class="form-group">
+            <label for="hotel_Email" class="form-control-label">Hotel Contact Email  :</label>
+            <input type="email" id="hotel_Email" placeholder="Light.House.Hotel123@gmail.com" class="form-control">
+          </div>
+
+          <div class="form-group">
+            <label for="contact_number1" class="form-control-label">Hotel contact number - 1  :</label>
+            <input type="tel" id="contact_number1" placeholder="0112587410" class="form-control">
+          </div>
+
+          <div class="form-group">
+            <label for="contact_number2" class="form-control-label">Hotel contact number - 2  :</label>
+            <input type="tel" id="contact_number2" placeholder="0112587410" class="form-control">
+          </div>
+
+          <div class="form-group">
+            <label for="petsAllowed">Pets Allowed:</label>
+            <input type="checkbox" id="petsAllowed" name="petsAllowed" value="yes">
+          </div>
+
+          <div class="form-group">
+            <label for="Hotel_fee" class="form-control-label">Hotel fee :</label>
+            <input type="text" id="Hotel_fee" name="petsAllowed" class="form-control">
+          </div>
+
+          <div class="form-group">
+            <label for="Cancellation_Criteria" class="form-control-label">Cancellation criteria </label>
+            <textarea id="Cancellation_Criteria" name="remarks" rows="4" cols="50" placeholder="Enter Cancellation_Criteria" class="form-control"></textarea>
+          </div>
+
+
+          <div class="form-group">
+            <label for="User_remarks" class="form-control-label">Remarks :</label>
+            <textarea id="User_remarks" name="remarks" rows="4" cols="50" placeholder="Enter your remarks here" class="form-control"></textarea>
+          </div>
+
+          <div>
+            <button type="submit" id="btn_Hotel_Submit" class="btn btn-primary">Submit</button>
+            <button type="reset" id="btn_Hotel_Reset" class="btn btn-danger">Reset</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--table-->
+
+<table id="hotelTable" class="table">
+  <thead>
+  <tr>
+    <th>Hotel ID</th>
+    <th>Hotel Name</th>
+    <th>Hotel Plan</th>
+    <th>Hotel Category</th>
+    <th>Hotel Location</th>
+    <th>Hotel Email</th>
+    <th>Contact Number 1</th>
+    <th>Contact Number 2</th>
+    <th>Pets Allowed</th>
+    <th>Hotel Fee</th>
+    <th>Cancellation Criteria</th>
+    <th>User Remarks</th>
+    <th>Action</th>
+  </tr>
+  </thead>
+  <tbody>
+  <!-- Data will be populated here -->
+  </tbody>
+</table>
+
+
+<!--hotel model-->
+
+
+<!-- Modal for Editing Hotel Details -->
+<div class="modal fade" id="editHotelModal" tabindex="-1" role="dialog" aria-labelledby="editHotelModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editHotelModalLabel">Edit Hotel Details</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- Hotel details form for editing -->
+        <form id="editHotelForm">
+          <div class="form-group">
+            <label for="editHotel_Id" class="form-control-label">Hotel ID:</label>
+            <input type="text" id="editHotel_Id" placeholder="123" class="form-control">
+          </div>
+
+          <div class="form-group">
+            <label for="EditHotel_Name" class="form-control-label">Hotel Name :</label>
+            <input type="text" id="EditHotel_Name" placeholder="Colombo" class="form-control">
+          </div>
+
+          <label for="EditHotelPlan">Select Hotel Plan:</label>
+          <select id="EditHotelPlan" onchange="updateHotelCategories()">
+            <option value="">Select a hotel plan</option>
+            <option value="regular">Regular</option>
+            <option value="mid-range">Mid-Range</option>
+            <option value="luxury">Luxury</option>
+            <option value="super-luxury">Super Luxury</option>
+          </select><br><br>
+
+          <label for="EditHotelCategory">Select Hotel Category:</label>
+          <select class="hotel-category" id="EditHotelCategory">
+            <option value="">Select a hotel category</option>
+          </select><br><br>
+
+          <div class="form-group">
+            <label for="EditHotel_Location" class="form-control-label">Hotel Location:</label>
+            <input type="text" id="EditHotel_Location" placeholder="Colombo" class="form-control">
+          </div>
+
+<!--          form  2-->
+
+          <div class="form-group">
+            <label for="EditHotel_Email" class="form-control-label">Hotel Contact Email  :</label>
+            <input type="email" id="EditHotel_Email" placeholder="Light.House.Hotel123@gmail.com" class="form-control">
+          </div>
+
+          <div class="form-group">
+            <label for="EditContact_number1" class="form-control-label">Hotel contact number - 1  :</label>
+            <input type="tel" id="EditContact_number1" placeholder="0112587410" class="form-control">
+          </div>
+
+          <div class="form-group">
+            <label for="EditContact_number2" class="form-control-label">Hotel contact number - 2  :</label>
+            <input type="tel" id="EditContact_number2" placeholder="0112587410" class="form-control">
+          </div>
+
+          <div class="form-group">
+            <label for="EditPetsAllowed">Pets Allowed:</label>
+            <input type="checkbox" id="EditPetsAllowed" name="petsAllowed" value="yes">
+          </div>
+
+          <div class="form-group">
+            <label for="EditHotel_fee" class="form-control-label">Hotel fee :</label>
+            <input type="text" id="EditHotel_fee" name="petsAllowed" class="form-control">
+          </div>
+
+          <div class="form-group">
+            <label for="EditCancellation_Criteria" class="form-control-label">Cancellation criteria </label>
+            <textarea id="EditCancellation_Criteria" name="remarks" rows="4" cols="50" placeholder="Enter Cancellation_Criteria" class="form-control"></textarea>
+          </div>
+
+
+          <div class="form-group">
+            <label for="EditUser_remarks" class="form-control-label">Remarks :</label>
+            <textarea id="EditUser_remarks" name="remarks" rows="4" cols="50" placeholder="Enter your remarks here" class="form-control"></textarea>
+          </div>
+
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="updateHotelBtn">Update</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+<!-- Include jQuery library (no need to include it multiple times) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+<!-- Your JavaScript code (HotelService_Form.js) -->
+<script src="js/js-funtion-form/HotelService_Form.js"></script>
+
+<!-- Include Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+<script>
+  $(document).ready(function() {
+    // Prevent the form from submitting and refresh the page
+    $("form").submit(function(event) {
+      event.preventDefault();
+
+    });
+  });
+</script>
+</body>
+</html>

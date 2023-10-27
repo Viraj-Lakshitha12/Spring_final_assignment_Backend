@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Service</title>
+
+  <!-- Fontfaces CSS-->
+  <link href="css/font-face.css" rel="stylesheet" media="all">
+  <link href="vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
+  <link href="vendor/font-awesome-5/css/fontawesome-all.min.css" rel="stylesheet" media="all">
+  <link href="vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
+
+  <!-- Bootstrap CSS-->
+  <link href="vendor/bootstrap-4.1/bootstrap.min.css" rel="stylesheet" media="all">
+  <link href="css/User_form.css" rel="stylesheet" media="all">
+
+</head>
+<body>
+
+
+<div class="container row">
+  <!-- Form 1 -->
+  <div class="col-lg-6">
+    <div class="card">
+      <div class="card-header bg-success text-white">
+        <strong>FORM 1</strong>
+      </div>
+      <div class="card-body">
+        <form>
+          <div class="form-group">
+            <label for="user_id" class="form-control-label">User ID:</label>
+            <input type="text" id="user_id" placeholder="Kamal" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="User_Nic" class="form-control-label">User NIC / Passport No:</label>
+            <input type="text" id="User_Nic" placeholder="1234567890" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="image-front-side">User NIC font side scanned images:</label>
+            <input type="file" id="image-front-side" name="image" accept="image/*">
+          </div>
+          <div class="form-group">
+            <label for="image-back-side">User NIC back side scanned images:</label>
+            <input type="file" id="image-back-side" name="image" accept="image/*">
+          </div>
+          <div class="form-group">
+            <label for="gender">Gender:</label>
+            <select id="gender" name="gender" class="form-control">
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="user_email" class="form-control-label">User Email:</label>
+            <input type="email" id="user_email" placeholder="Kamal123@gmail.com" class="form-control">
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Form 2 -->
+  <div class="col-lg-6">
+    <div class="card">
+      <div class="card-header bg-success text-white">
+        <strong>FORM 2</strong>
+      </div>
+      <div class="card-body">
+        <form>
+          <div class="form-group">
+            <label for="contact">Contact Number:</label>
+            <input type="tel" id="contact" name="contact" pattern="[0-9]{10}" placeholder="10-digit phone number" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="User_Age" class="form-control-label">User Age:</label>
+            <input type="text" id="User_Age" placeholder="Kamal" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="User_address" class="form-control-label">User Address:</label>
+            <input type="text" id="User_address" placeholder="Colombo" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="User_remarks" class="form-control-label">Remarks (any special needs, illnesses, etc.):</label>
+            <textarea id="User_remarks" name="remarks" rows="4" cols="50" placeholder="Enter your remarks here" class="form-control"></textarea>
+          </div>
+          <div >
+            <button type="submit" id="btn_Users_Submit" class="btn btn-primary">Submit</button>
+            <button type="reset" id="btn_Users_Reset" class="btn btn-danger">Reset</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<table class="table table-sm">
+  <thead>
+  <tr>
+    <th scope="col">ID</th>
+    <th scope="col">Nic</th>
+    <th scope="col">Gender</th>
+    <th scope="col">Email</th>
+    <th scope="col">Contact</th>
+    <th scope="col">Age</th>
+    <th scope="col">Address</th>
+    <th scope="col">Remarks</th>
+    <th scope="col">Front Side Image</th>
+    <th scope="col">Back Side Image</th>
+    <th scope="col">Action</th>
+  </tr>
+  </thead>
+  <tbody id="table-body">
+  <!-- Data rows will be added here using JavaScript -->
+  </tbody>
+</table>
+
+
+<!-- Modal for editing user data -->
+
+<div class="modal fade" id="editUserModal" tabindex="-1" role="dialog" aria-labelledby="editUserModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editUserModalLabel">Edit User Data</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- Form for editing user data -->
+        <form id="edit-user-form">
+          <div class="form-group">
+            <label for="editUser_id" class="form-control-label">User ID:</label>
+            <input type="text" id="editUser_id" placeholder="Kamal" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="editUser_Nic" class="form-control-label">User NIC / Passport No:</label>
+            <input type="text" id="editUser_Nic" placeholder="1234567890" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="editImage-front-side">User NIC front side scanned images:</label>
+            <input type="file" id="editImage-front-side" name="user_Image_front_side" accept="image/*">
+          </div>
+          <div class="form-group">
+            <label for="editImage-back-side">User NIC back side scanned images:</label>
+            <input type="file" id="editImage-back-side" name="user_Image_back_side" accept="image/*">
+          </div>
+
+          <div class="form-group">
+            <label for="editGender">Gender:</label>
+            <select id="editGender" name="gender" class="form-control">
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="editUser_email" class="form-control-label">User Email:</label>
+            <input type="email" id="editUser_email" placeholder="Kamal123@gmail.com" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="editContact">Contact Number:</label>
+            <input type="tel" id="editContact" name="contact" pattern="[0-9]{10}" placeholder="10-digit phone number" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="editUser_Age" class="form-control-label">User Age:</label>
+            <input type="text" id="editUser_Age" placeholder="Kamal" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="editUser_address" class="form-control-label">User Address:</label>
+            <input type="text" id="editUser_address" placeholder="Colombo" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="editUser_remarks" class="form-control-label">Remarks (any special needs, illnesses, etc.):</label>
+            <textarea id="editUser_remarks" name="remarks" rows="4" cols="50" placeholder="Enter your remarks here" class="form-control"></textarea>
+          </div>
+
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="update-user-button">Update</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<script src="vendor/jquery-3.2.1.min.js"></script>
+<script src="js/js-funtion-form/user_Form.js"></script>
+<!-- Bootstrap JS-->
+<script src="vendor/bootstrap-4.1/popper.min.js"></script>
+<script src="vendor/bootstrap-4.1/bootstrap.min.js"></script>
+<script>
+  $(document).ready(function() {
+    // Prevent the form from submitting and refresh the page
+    $("form").submit(function(event) {
+      event.preventDefault();
+      // Handle form submission asynchronously (e.g., using AJAX)
+      // You can place your AJAX code here to send the form data to the server
+    });
+  });
+</script>
+</body>
+</html>
