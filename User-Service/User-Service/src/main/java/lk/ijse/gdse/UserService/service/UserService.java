@@ -11,8 +11,11 @@ public interface UserService {
 
     List<UserEntity> getAllData();
 
-    Optional<UserEntity> getGuideById(Long userId);
+    Optional<UserEntity> getUserById(Long userId);
 
     UserEntity updateUser(UserEntity user);
     List<Long> getAllUserIds();
+
+
+    UserEntity getUserByEmail(String email);
 }

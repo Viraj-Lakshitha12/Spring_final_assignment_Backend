@@ -31,8 +31,9 @@ public class UserServiceImpl implements UserService {
         return userServiceRepo.findAll();
     }
 
+
     @Override
-    public Optional<UserEntity> getGuideById(Long userId) {
+    public Optional<UserEntity> getUserById(Long userId) {
         return userServiceRepo.findById(userId);
     }
 
@@ -42,7 +43,8 @@ public class UserServiceImpl implements UserService {
 
         if (optionalUser.isPresent()) {
             UserEntity existingUser = optionalUser.get();
-            // Update the fields from the new user
+            existingUser.setUser_Password(user.getUser_Password());
+            existingUser.setUserName(user.getUserName());
             existingUser.setUser_id(user.getUser_id());
             existingUser.setUser_nic(user.getUser_nic());
             existingUser.setFrontSideImage(user.getFrontSideImage());
@@ -66,6 +68,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<Long> getAllUserIds() {
         return userServiceRepo.getAllUserIds();
+    }
+
+    @Override
+    public UserEntity getUserByEmail(String email) {
+        return userServiceRepo.findByUserEmail(email);
     }
 
 

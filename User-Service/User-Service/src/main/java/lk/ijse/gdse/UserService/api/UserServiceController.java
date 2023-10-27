@@ -39,17 +39,24 @@ public class UserServiceController {
             @RequestParam String email,
             @RequestParam String password
     ) {
-        // Implement authentication logic here, check user credentials in the database
-        // Example: If (userService.authenticateUser(email, password)) { ... }
+        UserEntity userByEmail = userService.getUserByEmail(email);
 
-        // Replace the example logic above with your authentication logic
+        if (userByEmail != null) {
+            // User with the provided email exists
+            if (userByEmail.getUser_Password().equals(password)) {
+                System.out.println("log ok");
+                return ResponseEntity.status(HttpStatus.OK).body("Login success");
+            } else {System.out.println("log Not");
 
-        // If authentication is successful, return 200 OK
-        return ResponseEntity.status(HttpStatus.OK).body("Login success");
-
-        // If authentication fails, return 401 Unauthorized
-        // return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Login failed");
+                // Password does not match
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Login failed: Incorrect password");
+            }
+        } else {
+            // User with the provided email does not exist
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Login failed: User not found");
+        }
     }
+
 
     @PostMapping(value = "/saveData" ,produces = MediaType.APPLICATION_JSON_VALUE,consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponseUtil> saveMainTravelDetails(@RequestBody UserDTO userDTO) {
@@ -57,8 +64,6 @@ public class UserServiceController {
         UserEntity user = userService.saveData(dataTypeConversion.getUserEntity(userDTO));
         return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseUtil(201, "User data saved", user));
 
-        // If the save operation fails, return an appropriate response
-        // return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseUtil(500, "User data not saved", null));
     }
     @GetMapping("/getAllData")
     public ResponseEntity<List<UserDTO>> getAllDetails() {
@@ -75,7 +80,7 @@ public class UserServiceController {
     }
     @GetMapping("/getUserData/{userId}")
     public ResponseEntity<?> getGuideDetailsById(@PathVariable Long userId) {
-        Optional<UserEntity> guideById = userService.getGuideById(userId);
+        Optional<UserEntity> guideById = userService.getUserById(userId);
         if (guideById.isPresent()) {
             return ResponseEntity.ok(guideById.get());
         } else {
@@ -89,18 +94,21 @@ public class UserServiceController {
                 @RequestParam("user_Image_front_side") MultipartFile frontImage,
                 @RequestParam("user_Image_back_side") MultipartFile backImage,
                 @RequestParam("user_id") Long userId,
+                @RequestParam("userName") String username,
                 @RequestParam("user_nic") String userNic,
                 @RequestParam("gender") String gender,
                 @RequestParam("user_email") String userEmail,
                 @RequestParam("contact") String contact,
                 @RequestParam("user_age") int userAge,
                 @RequestParam("user_address") String userAddress,
+                @RequestParam("user_Password") String user_Password,
                 @RequestParam("user_remarks") String userRemarks) {
 
             try {
-                UserEntity userEntity = userService.updateUser(new UserEntity(userId, userNic, frontImage.getBytes(), backImage.getBytes(), gender, userEmail, contact, userAge,
-                        userAddress, userRemarks));
-
+                UserEntity userEntity = userService.updateUser(new UserEntity(userId,username, userNic,
+                        frontImage.getBytes(), backImage.getBytes(), gender, userEmail, contact, userAge,
+                        userAddress,user_Password, userRemarks));
+                System.out.println(username);
                 return ResponseEntity.ok("User data updated successfully");
             } catch (Exception e) {
                 e.printStackTrace();

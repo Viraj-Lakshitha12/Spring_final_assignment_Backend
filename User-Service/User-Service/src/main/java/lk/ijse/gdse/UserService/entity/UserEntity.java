@@ -17,6 +17,7 @@ public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long user_id;
+    private String  userName;
     private String user_nic;
 
     @Column(length = 10485760) // Adjust the length according to your needs (e.g., 10MB)
@@ -30,5 +31,6 @@ public class UserEntity {
     private String contact;
     private int user_age;
     private String user_address;
+    private String user_Password;
     private String user_remarks;
 }
