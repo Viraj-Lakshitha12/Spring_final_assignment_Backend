@@ -14,4 +14,5 @@ public interface UserService {
     Optional<UserEntity> getGuideById(Long userId);
 
     UserEntity updateUser(UserEntity user);
+    List<Long> getAllUserIds();
 }

@@ -11,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -82,17 +83,34 @@ public class UserServiceController {
         }
     }
 
-    @PutMapping(value = "/**",consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> updateGuideDetails(@RequestBody UserDTO user) {
-        try {
-            UserEntity updatedUser = userService.updateUser(dataTypeConversion.getUserEntity(user));
-            if (updatedUser != null) {
-                return ResponseEntity.ok("User updated successfully");
-            } else {
+
+    @PostMapping("/updateUserData")
+    public ResponseEntity<String> updateGuideDetails(
+                @RequestParam("user_Image_front_side") MultipartFile frontImage,
+                @RequestParam("user_Image_back_side") MultipartFile backImage,
+                @RequestParam("user_id") Long userId,
+                @RequestParam("user_nic") String userNic,
+                @RequestParam("gender") String gender,
+                @RequestParam("user_email") String userEmail,
+                @RequestParam("contact") String contact,
+                @RequestParam("user_age") int userAge,
+                @RequestParam("user_address") String userAddress,
+                @RequestParam("user_remarks") String userRemarks) {
+
+            try {
+                UserEntity userEntity = userService.updateUser(new UserEntity(userId, userNic, frontImage.getBytes(), backImage.getBytes(), gender, userEmail, contact, userAge,
+                        userAddress, userRemarks));
+
+                return ResponseEntity.ok("User data updated successfully");
+            } catch (Exception e) {
+                e.printStackTrace();
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred while updating the user");
             }
-        } catch (NoSuchElementException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found with the specified ID");
-        }
+    }
+
+    @GetMapping("/getAllUserIds")
+    public List<Long> getAllUserIds(){
+        return userService.getAllUserIds();
     }
 }
+

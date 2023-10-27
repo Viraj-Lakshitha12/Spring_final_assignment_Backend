@@ -63,5 +63,10 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    @Override
+    public List<Long> getAllUserIds() {
+        return userServiceRepo.getAllUserIds();
+    }
+
 
 }
