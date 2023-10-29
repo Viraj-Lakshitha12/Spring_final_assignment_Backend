@@ -7,6 +7,7 @@ import lk.ijse.gdse.VehicleService.util.DataTypeConversion;
 import lk.ijse.gdse.VehicleService.util.ResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -89,4 +90,31 @@ public class VehicleServiceController {
         Optional<Vehicle> byId = vehicleService.findById(vehicleId);
         return new ResponseUtil(200,"find",byId);
     }
+
+
+    @PutMapping("/updateVehicle")
+    public ResponseEntity<String> updateVehicle(@RequestPart("vehicleDTO") VehicleDTO vehicleDTO,
+                                                @RequestPart("frontViewImage") MultipartFile frontViewImage,
+                                                @RequestPart("rearViewImage") MultipartFile rearViewImage,
+                                                @RequestPart("sideViewImage") MultipartFile sideViewImage,
+                                                @RequestPart("frontInteriorImage") MultipartFile frontInteriorImage,
+                                                @RequestPart("rearInteriorImage") MultipartFile rearInteriorImage,
+                                                @RequestPart("licenseFrontImage") MultipartFile licenseFrontImage,
+                                                @RequestPart("licenseRearImage") MultipartFile licenseRearImage){
+        System.out.println(vehicleDTO);
+
+        Vehicle vehicle = null;
+        try {
+            vehicle = vehicleService.updateUser(new Vehicle(vehicleDTO.getVehicleId(),vehicleDTO.getVehicleBrand(),vehicleDTO.getCategory(),
+                    vehicleDTO.getFuelType(),vehicleDTO.getHybridOrNonHybrid(),vehicleDTO.getFuelUsage(),vehicleDTO.getSeatCapacity(),
+                    vehicleDTO.getVehicleType(),vehicleDTO.getTransmissionType(),vehicleDTO.getDriverName(),vehicleDTO.getDriverContactNo(),
+                    vehicleDTO.getRemarks(),frontViewImage.getBytes(),rearViewImage.getBytes(),sideViewImage.getBytes(),
+                    frontInteriorImage.getBytes(),rearInteriorImage.getBytes(),licenseFrontImage.getBytes(),licenseRearImage.getBytes()));
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred while updating the vehicle");
+        }
+        return ResponseEntity.status(HttpStatus.CREATED).body("Updated");
+    }
+
 }

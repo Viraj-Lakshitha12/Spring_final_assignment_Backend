@@ -11,4 +11,6 @@ public interface VehicleService {
     List<Vehicle> getAllData();
 
     Optional<Vehicle> findById(Long id);
+    Vehicle updateUser(Vehicle vehicleEntity);
+
 }
