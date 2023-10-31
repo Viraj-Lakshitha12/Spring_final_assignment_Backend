@@ -15,7 +15,7 @@ import javax.validation.constraints.Size;
 @Data
 public class UserDTO {
     private long user_id;
-    private String  userName;
+    private String userName;
 
     @NotBlank(message = "User NIC is required")
     private String user_nic;
@@ -42,6 +42,7 @@ public class UserDTO {
     private String user_address;
 
     private String user_Password;
+    private String user_rank;
 
     @Size(max = 255, message = "Remarks should not exceed 255 characters")
     private String user_remarks;

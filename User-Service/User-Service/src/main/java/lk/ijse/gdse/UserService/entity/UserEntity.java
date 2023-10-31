@@ -32,5 +32,6 @@ public class UserEntity {
     private int user_age;
     private String user_address;
     private String user_Password;
+    private String user_rank;
     private String user_remarks;
 }

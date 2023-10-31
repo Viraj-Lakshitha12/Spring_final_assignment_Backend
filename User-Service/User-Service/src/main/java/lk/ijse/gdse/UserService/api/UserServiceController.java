@@ -13,6 +13,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -48,7 +49,6 @@ public class UserServiceController {
                 return ResponseEntity.status(HttpStatus.OK).body("Login success");
             } else {System.out.println("log Not");
 
-                // Password does not match
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Login failed: Incorrect password");
             }
         } else {
@@ -102,12 +102,13 @@ public class UserServiceController {
                 @RequestParam("user_age") int userAge,
                 @RequestParam("user_address") String userAddress,
                 @RequestParam("user_Password") String user_Password,
+                @RequestParam("user_rank") String user_rank,
                 @RequestParam("user_remarks") String userRemarks) {
 
             try {
                 UserEntity userEntity = userService.updateUser(new UserEntity(userId,username, userNic,
                         frontImage.getBytes(), backImage.getBytes(), gender, userEmail, contact, userAge,
-                        userAddress,user_Password, userRemarks));
+                        userAddress,user_Password,user_rank, userRemarks));
                 System.out.println(username);
                 return ResponseEntity.ok("User data updated successfully");
             } catch (Exception e) {

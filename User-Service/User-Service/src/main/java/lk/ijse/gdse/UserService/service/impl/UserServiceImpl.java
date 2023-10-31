@@ -44,6 +44,7 @@ public class UserServiceImpl implements UserService {
         if (optionalUser.isPresent()) {
             UserEntity existingUser = optionalUser.get();
             existingUser.setUser_Password(user.getUser_Password());
+            existingUser.setUser_rank(user.getUser_rank());
             existingUser.setUserName(user.getUserName());
             existingUser.setUser_id(user.getUser_id());
             existingUser.setUser_nic(user.getUser_nic());
