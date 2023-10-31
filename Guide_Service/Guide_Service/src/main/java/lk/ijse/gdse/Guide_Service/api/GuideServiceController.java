@@ -84,7 +84,7 @@ public class GuideServiceController {
     @PutMapping("/updateGuide/{guideId}")
     public ResponseEntity<ResponseUtil> updateGuideDetails(@PathVariable Long guideId, @RequestBody Guide updatedGuide) {
         Guide guide = guideService.updateGuide(updatedGuide);
-
+//        System.out.println(updatedGuide);
         if (guide != null) {
 //            System.out.println(guide);
             return ResponseEntity.ok(new ResponseUtil(201,"Guide details updated successfully", guide));
@@ -92,6 +92,18 @@ public class GuideServiceController {
             // Handle the case where the update operation fails
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ResponseUtil(500,"Failed to update guide details", HttpStatus.INTERNAL_SERVER_ERROR));
+        }
+    }
+
+    @DeleteMapping("/deleteGuide/{guideId}")
+    public ResponseEntity<String> deleteGuide(@PathVariable Long guideId) {
+        try {
+            guideService.deleteGuideById(guideId);
+
+            return ResponseEntity.ok("Vehicle deleted successfully");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Failed to delete the vehicle: " + e.getMessage());
         }
     }
 }

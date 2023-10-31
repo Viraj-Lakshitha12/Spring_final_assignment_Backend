@@ -36,4 +36,9 @@ public class GuideServiceImpl implements GuideService {
     public Guide updateGuide(Guide guide) {
         return guiderRepo.save(guide);
     }
+
+    @Override
+    public void deleteGuideById(Long guideId) {
+        guiderRepo.deleteById(guideId);
+    }
 }
