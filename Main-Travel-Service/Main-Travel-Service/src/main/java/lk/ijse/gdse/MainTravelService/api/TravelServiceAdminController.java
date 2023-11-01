@@ -59,13 +59,9 @@ public class TravelServiceAdminController {
     @GetMapping("/getAllData")
     public ResponseEntity<List<TravelService>> getAllDetails() {
         List<TravelService> details = mainTravelService.getAllDetails();
-        // Check if the list is not empty before returning
-        if (!details.isEmpty()) {
-            return ResponseEntity.ok(details);
-        } else {
-            return ResponseEntity.noContent().build();
-        }
+        return !details.isEmpty() ? ResponseEntity.ok(details) : ResponseEntity.noContent().build();
     }
+
 
     @GetMapping("/findByUserID")
     public ResponseUtil findDetailsByUserID(@Param("userID") String userID){
@@ -76,4 +72,17 @@ public class TravelServiceAdminController {
             return new ResponseUtil(200,"not found",null);
         }
     }
+    // In the controller
+    @PutMapping(value = "/updateData",consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseUtil updateTraverServiceDetails(@RequestBody TravelServiceDTO travelServiceDTO) {
+        try {
+            TravelService travelService = mainTravelService.updateDetails(dataTypeConversion.getTravelServiceEntity(travelServiceDTO));
+            System.out.println("Updated Travel Service: " + travelService.toString());
+            return new ResponseUtil(200, "Updated successfully", travelService);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseUtil(500, "Error updating data", null);
+        }
+    }
+
 }

@@ -30,4 +30,9 @@ public class TravelServiceImpl implements MainTravelService {
     public Optional<TravelService> findDetailsByUserID(String userId) {
         return travelServiceRepo.findDetailsByUserID(userId);
     }
+
+    @Override
+    public TravelService updateDetails(TravelService travelService) {
+    return travelServiceRepo.save(travelService);
+    }
 }

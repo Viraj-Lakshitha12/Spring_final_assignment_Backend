@@ -12,4 +12,6 @@ public interface MainTravelService {
     List<TravelService> getAllDetails();
 
     Optional<TravelService> findDetailsByUserID(String userId);
+
+    TravelService updateDetails(TravelService travelService);
 }
