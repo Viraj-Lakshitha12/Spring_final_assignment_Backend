@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class HotelServiceIMPL implements HotelService {
@@ -32,5 +33,15 @@ public class HotelServiceIMPL implements HotelService {
     @Override
     public Hotel updateHotel(Hotel hotel) {
         return hotelRepo.save(hotel);
+    }
+
+    @Override
+    public Optional<Hotel> findHotelById(Long hotelId) {
+        return hotelRepo.findById(hotelId);
+    }
+
+    @Override
+    public void deleteHotel(Long hotelId) {
+        hotelRepo.deleteById(hotelId);
     }
 }

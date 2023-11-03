@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin("*")
@@ -54,4 +55,20 @@ public class HotelServiceController {
                     .body(new ResponseUtil(500,"Failed to update guide details", HttpStatus.INTERNAL_SERVER_ERROR));
         }
     }
+
+    @GetMapping("/findHotelById/{hotelId}")
+    public ResponseUtil findHotelById(@PathVariable Long hotelId){
+        Optional<Hotel> hotel = hotelService.findHotelById(hotelId);
+        if (hotel.isPresent()){
+            return new ResponseUtil(200,"found",hotel);
+        }
+        return new ResponseUtil(500,"Internal Server Error","");
+    }
+
+    @DeleteMapping("/deleteHotel/{hotelId}")
+    public ResponseUtil deleteHotel(@PathVariable Long hotelId){
+        hotelService.deleteHotel(hotelId);
+        return new ResponseUtil(200,"Delete Hotel Success",null);
+    }
+
 }
