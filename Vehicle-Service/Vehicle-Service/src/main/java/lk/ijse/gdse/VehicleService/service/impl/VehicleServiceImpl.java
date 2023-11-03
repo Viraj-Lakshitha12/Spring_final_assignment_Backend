@@ -34,8 +34,14 @@ public class VehicleServiceImpl implements VehicleService {
     public Optional<Vehicle> findById(Long id) {
         return vehicleServiceRepo.findById(id);
     }
+
     @Override
-    public Vehicle updateUser(Vehicle vehicleEntity) {
+    public void deleteVehicle(Long id) {
+        vehicleServiceRepo.deleteById(id);
+    }
+
+    @Override
+    public Vehicle updateVehicle(Vehicle vehicleEntity) {
         Optional<Vehicle> optionalVehicle = vehicleServiceRepo.findById(vehicleEntity.getVehicleId());
         if (optionalVehicle.isPresent()){
             Vehicle existsVehicle = optionalVehicle.get();
@@ -48,8 +54,11 @@ public class VehicleServiceImpl implements VehicleService {
             existsVehicle.setVehicleType(vehicleEntity.getVehicleType());
             existsVehicle.setVehicleType(vehicleEntity.getVehicleType());
             existsVehicle.setTransmissionType(vehicleEntity.getTransmissionType());
+            existsVehicle.setVehicle_qty(vehicleEntity.getVehicle_qty());
             existsVehicle.setDriverName(vehicleEntity.getDriverName());
             existsVehicle.setDriverContactNo(vehicleEntity.getDriverContactNo());
+            existsVehicle.setVehicleFee(vehicleEntity.getVehicleFee());
+            existsVehicle.setFee_For_1km(vehicleEntity.getFee_For_1km());
             existsVehicle.setRemarks(vehicleEntity.getRemarks());
             existsVehicle.setFrontViewImage(vehicleEntity.getFrontViewImage());
             existsVehicle.setRearViewImage(vehicleEntity.getRearViewImage());
@@ -63,5 +72,4 @@ public class VehicleServiceImpl implements VehicleService {
         }
         throw new NoSuchElementException("Vehicle not found with ID: " + vehicleEntity.getVehicleId());
     }
-
 }

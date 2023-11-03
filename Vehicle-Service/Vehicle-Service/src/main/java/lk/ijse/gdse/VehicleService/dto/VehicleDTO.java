@@ -17,8 +17,11 @@ public class VehicleDTO {
     private String seatCapacity;
     private String vehicleType;
     private String transmissionType;
+    private String vehicle_qty;
     private String driverName;
     private String driverContactNo;
+    private String vehicleFee;
+    private String fee_For_1km;
     private String remarks;
 
     private byte[] frontViewImage;

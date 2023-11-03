@@ -86,11 +86,20 @@ public class VehicleServiceController {
     }
 
     @GetMapping("/getData/{vehicleId}")
-    public ResponseUtil getVehicleByVehicleId(@PathVariable Long vehicleId){
+    public ResponseUtil getVehicleByVehicleId(@PathVariable Long vehicleId) {
         Optional<Vehicle> byId = vehicleService.findById(vehicleId);
-        return new ResponseUtil(200,"find",byId);
+        if (byId.isPresent()) {
+            return new ResponseUtil(200,"found",byId);
+        } else {
+            return new ResponseUtil(500,"Internal Server Error",null);
+        }
     }
 
+    @DeleteMapping("/deleteVehicle/{vehicleId}")
+    public ResponseUtil deleteVehicle(@PathVariable Long vehicleId){
+        vehicleService.deleteVehicle(vehicleId);
+        return new ResponseUtil(200,"Delete Success","null");
+    }
 
     @PutMapping("/updateVehicle")
     public ResponseEntity<String> updateVehicle(@RequestPart("vehicleDTO") VehicleDTO vehicleDTO,
@@ -105,10 +114,10 @@ public class VehicleServiceController {
 
         Vehicle vehicle = null;
         try {
-            vehicle = vehicleService.updateUser(new Vehicle(vehicleDTO.getVehicleId(),vehicleDTO.getVehicleBrand(),vehicleDTO.getCategory(),
+            vehicle = vehicleService.updateVehicle(new Vehicle(vehicleDTO.getVehicleId(),vehicleDTO.getVehicleBrand(),vehicleDTO.getCategory(),
                     vehicleDTO.getFuelType(),vehicleDTO.getHybridOrNonHybrid(),vehicleDTO.getFuelUsage(),vehicleDTO.getSeatCapacity(),
-                    vehicleDTO.getVehicleType(),vehicleDTO.getTransmissionType(),vehicleDTO.getDriverName(),vehicleDTO.getDriverContactNo(),
-                    vehicleDTO.getRemarks(),frontViewImage.getBytes(),rearViewImage.getBytes(),sideViewImage.getBytes(),
+                    vehicleDTO.getVehicleType(),vehicleDTO.getTransmissionType(),vehicleDTO.getVehicle_qty(),vehicleDTO.getDriverName(),vehicleDTO.getDriverContactNo(),
+                    vehicleDTO.getVehicleFee(),vehicleDTO.getFee_For_1km(),vehicleDTO.getRemarks(),frontViewImage.getBytes(),rearViewImage.getBytes(),sideViewImage.getBytes(),
                     frontInteriorImage.getBytes(),rearInteriorImage.getBytes(),licenseFrontImage.getBytes(),licenseRearImage.getBytes()));
         } catch (IOException e) {
             e.printStackTrace();
@@ -116,5 +125,4 @@ public class VehicleServiceController {
         }
         return ResponseEntity.status(HttpStatus.CREATED).body("Updated");
     }
-
 }
