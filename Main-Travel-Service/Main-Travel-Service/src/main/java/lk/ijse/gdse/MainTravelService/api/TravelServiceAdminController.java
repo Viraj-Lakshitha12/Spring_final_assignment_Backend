@@ -24,7 +24,6 @@ public class TravelServiceAdminController {
     @Autowired
     private final DataTypeConversion dataTypeConversion;
 
-
     public TravelServiceAdminController(MainTravelService service, DataTypeConversion conversion) {
         mainTravelService = service;
         dataTypeConversion = conversion;
