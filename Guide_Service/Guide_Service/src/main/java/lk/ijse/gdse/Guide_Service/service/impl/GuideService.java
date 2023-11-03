@@ -13,4 +13,8 @@ public interface GuideService {
     Optional<Guide> getGuideById(Long id);
 
     Guide updateGuide(Guide guide);
+
+    void deleteGuideById(Long guideId);
+
+    Optional<Guide> getByContactNumber(String contactNumber);
 }
