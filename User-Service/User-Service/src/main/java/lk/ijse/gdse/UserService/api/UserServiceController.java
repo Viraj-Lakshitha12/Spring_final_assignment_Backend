@@ -64,6 +64,7 @@ public class UserServiceController {
         return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseUtil(201, "User data saved", user));
 
     }
+
     @GetMapping("/getAllData")
     public ResponseEntity<List<UserDTO>> getAllDetails() {
         List<UserEntity> userData = userService.getAllData();
@@ -118,6 +119,12 @@ public class UserServiceController {
     @GetMapping("/getAllUserIds")
     public List<Long> getAllUserIds(){
         return userService.getAllUserIds();
+    }
+
+    @DeleteMapping("/deleteUser/{userId}")
+    public ResponseUtil deleteUser(@PathVariable Long userId){
+     userService.deleteUser(userId);
+     return new ResponseUtil(200,"delete success",null);
     }
 }
 

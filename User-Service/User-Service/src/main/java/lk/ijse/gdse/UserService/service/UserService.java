@@ -18,4 +18,6 @@ public interface UserService {
 
 
     UserEntity getUserByEmail(String email);
+
+    void deleteUser(Long userId);
 }
